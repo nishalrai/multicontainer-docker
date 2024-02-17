@@ -1,0 +1,15 @@
+sudo: required
+services:
+  - docker
+
+before_install: 
+  - docker build -t nitratic/react-test -f ./client/Dockerfile.dev ./client 
+
+script: 
+  - docker run nitratic/react-test npm test -- --coverage 
+
+after_success: 
+  - docker build -t nitratic/multi-client ./client
+  - docker build -t nitratic/multi-nginx ./nginx 
+  - docker build -t nitratic/multi-server ./server 
+  - docker build -t nitratic/multi-worker ./worker 
