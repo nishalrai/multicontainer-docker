@@ -13,3 +13,12 @@ after_success:
   - docker build -t nitratic/multi-nginx ./nginx 
   - docker build -t nitratic/multi-server ./server 
   - docker build -t nitratic/multi-worker ./worker 
+
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin 
+
+  # Take those images and push them to the Docker HUb
+  - docker push nitratic/multi-client 
+  - docker push nitratic/multi-nginx
+  - docker push nitratic/multi-server
+  - docker push nitratic/multi-worker
